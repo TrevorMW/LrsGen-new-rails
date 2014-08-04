@@ -3,12 +3,41 @@
 <head>
   <title>LrsGen</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <link href='http://fonts.googleapis.com/css?family=Raleway:400,200,300,500,600,700' rel='stylesheet' type='text/css'>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
 
-<%= yield %>
+  <div class="wrapper top">
+    <div class="left">
+      <a href="">
+        <img src="" alt"" />
+      </a>
+    </div>
+    <div class="right">
+      <%= yield :tools %>
+    </div>
+  </div>
+
+  <div class="wrapper bottom">
+    <div class="left">
+      <nav class="main" role="navigation">
+        <ul>
+          <li><a href="/hotel" class="active"><i class="fa fa-building"></i> Hotels</a></li>
+          <li><a href="/rate"><i class="fa fa-usd"></i> Rates</a></li>
+          <li><a href="/report"><i class="fa fa-file-excel-o"></i> Reports</a></li>
+          <li><a href="/user"><i class="fa fa-users"></i> Users</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="right">
+      <main class="container">
+        <%= yield :main %>
+      </main>
+    </div>
+  </div>
 
 </body>
 </html>

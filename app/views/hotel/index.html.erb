@@ -1,0 +1,52 @@
+<% content_for :tools do %>
+
+  <div class="toolbar filters" id="js-filters">
+
+    <select id="js-filter-hotel-type">
+      <option value="-1">Filter by type</option>
+      <option value="1">Bed & Breakfasts</option>
+      <option value="2">Historic Inns</option>
+      <option value="3">Historic Hotels</option>
+      <option value="4">RiverView Hotels</option>
+      <option value="5">Mt. Pleasant</option>
+    </select>
+    <input type="search" value="" id="js-search-filter" placeholder="Filter by name..."/>
+  </div>
+
+  <div class="toolbar btns">
+    <a href="" class=""><i class="fa fa-list"></i></a>
+    <a href="/hotel/new" class="tool-btns" title="Create New hotel"><i class="fa fa-plus"></i></a>
+  </div>
+
+<% end %>
+
+<% content_for :main do %>
+
+
+  <% 20.times do |f| %>
+
+    <div class="hotel block" data-filter="">
+
+      <div class="hotel-img">
+        <img src="http://andrewpinckneyinn.com/wp-content/uploads/2014/03/API-Exterior-Crop-WEB.jpg" alt="" />
+      </div>
+
+      <div class="hotel-info">
+        <span><h3>Hotel Name</h3><small>Hotel Type</small></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <div class="hotel-tools">
+        <a href="#" title="Delete Hotel"><i class="fa fa-times"></i></a>
+        <a href="#" title="Edit Hotel"><i class="fa fa-edit"></i></a>
+        <a href="#" title="Get Hotel Directions"><i class="fa fa-map-marker"></i></a>
+        <a href="#" title="New Reservation"><i class="fa fa-file"></i></a>
+      </div>
+
+    </div>
+
+  <% end %>
+
+<% end %>
