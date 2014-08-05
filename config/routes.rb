@@ -54,11 +54,9 @@ Rails.application.routes.draw do
   #     resources :products
   #   end
 
-  resources :hotel
+  resources :hotel, :rate, :statistic, :report, :user
 
-  root 'hotel#index'
-
-
+  root 'statistic#index'
 
 
 end

@@ -93,12 +93,17 @@ img{
       height:inherit;
       overflow-x:hidden;
       overflow-y:hidden;
-      padding:15px;
+
     }
   }
+}
 
+.container{
+  padding:15px;
 
-
+  &.full{
+    padding:0;
+  }
 }
 
 main{
@@ -111,6 +116,7 @@ main{
     @extend .clearfix;
   }
 }
+
 
 
 nav.main{
@@ -169,6 +175,31 @@ nav.main{
 
 }
 
+
+.panel{
+  display:block;
+  width:100%;
+  background-color:#ccc;
+
+  & a.accordion,
+  & a.accordion:visited{
+    display:block;
+    padding:10px;
+
+    & i,
+    & h3{
+        display:inline-block;
+        width:auto;
+
+    }
+  }
+
+  & a.accordion:hover,
+  & a.accordion:focus{
+    background-color:#aaa;
+  }
+
+}
 
 
 .hotel.block{

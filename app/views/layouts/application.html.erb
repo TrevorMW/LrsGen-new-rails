@@ -24,7 +24,8 @@
     <div class="left">
       <nav class="main" role="navigation">
         <ul>
-          <li><a href="/hotel" class="active"><i class="fa fa-building"></i> Hotels</a></li>
+          <li><a href="/statistic" class="active"><i class="fa fa-signal"></i> Statistics</a></li>
+          <li><a href="/hotel"><i class="fa fa-building"></i> Hotels</a></li>
           <li><a href="/rate"><i class="fa fa-usd"></i> Rates</a></li>
           <li><a href="/report"><i class="fa fa-file-excel-o"></i> Reports</a></li>
           <li><a href="/user"><i class="fa fa-users"></i> Users</a></li>
@@ -33,7 +34,7 @@
     </div>
 
     <div class="right">
-      <main class="container">
+      <main class="container <%= yield :classes %>">
         <%= yield :main %>
       </main>
     </div>
