@@ -7,21 +7,47 @@
 
 <% content_for :main do %>
 
+    <div class="" id="map-canvas" data-center=""></div>
+
     <%= form_for :hotel do |h| %>
 
       <ul>
 
+        <li class="third ">
+          <%= h.label :name, raw('Hotel Name: <span class="required">*</span>') %>
+          <%= h.text_field :hotel_name,
+                            class: "",
+                            id: "js-check-hotel-name",
+                            placeholder: "Hotel Name (max 350 characters)..." %>
+        </li>
         <li class="third">
-          <%= h.label :image_url, "Hotel Image Url:" %>
+          <%= h.label :image_url, raw('Hotel Image Url: <span class="required">*</span>') %>
           <%= h.text_field :hotel_image_url,
                             class: "",
-                            id: "js-check-hotel-name" %>
+                            placeholder: "Hotel Img Url" %>
         </li>
 
-        <li class="third">
+        <li class="third right">
+          <%= h.label :type, raw('Hotel Type: <span class="required">*</span>') %>
+          <%= h.select( :type, options_for_select( [['Please select a hotel type',0],['Bed & Breakfast',1],['Historic Hotel',2]]) ) %>
+        </li>
+
+        <li class="fourth ">
           <%= h.label :type, "Hotel Type:" %>
+          <%= h.select( :type, options_for_select( [['Please select a hotel type',0],['Bed & Breakfast',1],['Historic Hotel',2]]) ) %>
         </li>
-
+        <li class="fourth ">
+          <%= h.label :type, "Hotel Type:" %>
+          <%= h.select( :type, options_for_select( [['Please select a hotel type',0],['Bed & Breakfast',1],['Historic Hotel',2]]) ) %>
+        </li>
+        <li class="fourth ">
+          <%= h.label :type, "Hotel Type:" %>
+          <%= h.select( :type, options_for_select( [['Please select a hotel type',0],['Bed & Breakfast',1],['Historic Hotel',2]]) ) %>
+        </li>
+        <li class="fourth right">
+          <%= h.label :type, "Hotel Type:" %>
+          <%= h.select( :type, options_for_select( [['Please select a hotel type',0],['Bed & Breakfast',1],['Historic Hotel',2]]) ) %>
+        </li>
 
 
 

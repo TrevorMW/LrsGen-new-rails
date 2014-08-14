@@ -25,7 +25,7 @@
 
 }
 ::-webkit-input-placeholder{
-  color:inherit;
+  color:#999;
 }
 
 body{
@@ -216,7 +216,7 @@ nav.main{
   }
 
   & .hotel-info{
-    background-color:#ccc;
+    background-color:#ddd;
     min-height:50px;
 
     & span{
@@ -224,6 +224,29 @@ nav.main{
       width:100%;
       border-bottom:1px dashed darken(#ccc, 5%);
       padding:10px;
+
+      &.no-pad{
+        padding:0;
+      }
+
+      & table{
+        width:100%;
+        background-color:#fff;
+        border-collapse:collapse;
+
+        & thead td,
+        & tbody td{
+          width:33%;
+          padding:3px 0;
+          text-align:center;
+        }
+      }
+    }
+
+    & p {
+      font-size:12px;
+      line-height:25px;
+      margin:0;
     }
 
     & span:last-child{
@@ -310,18 +333,95 @@ input,
 textarea{
   border:0;
   margin:0;
+  font-size:14px;
+  border:1px solid #ddd;
   -webkit-border-radius:0;
 }
+
 input,
 textarea{
   -webkit-appearance:none;
+  padding:8px 4px;
 }
+
+select{
+  height:33px;
+  background-color:#fff;
+}
+
+form {
+
+  & ul {
+    display:block;
+    width:100%;
+    padding:0;
+    margin:0;
+  }
+
+  & li{
+    display:block;
+    width:100%;
+    margin-bottom:18px;
+
+    &.half,
+    &.third,
+    &.fourth{
+      display:inline-block;
+      width:49%;
+      vertical-align:top;
+    }
+
+    &.third,
+    &.third.right{
+      width:32%;
+      margin-right:15px;
+    }
+
+    &.fourth,
+    &.fourth.right{
+      width:24%;
+      margin-right:10px;
+    }
+
+    &.half.right,
+    &.third.right,
+    &.fourth.right{
+      float:right;
+      margin-right:0;
+    }
+  }
+
+  & input,
+  & textarea,
+  & label,
+  & select{
+    width:100%;
+    display:block;
+  }
+
+  & input:focus,
+  & textarea:focus,
+  & select:focus{
+    border-color:#aaa;
+  }
+
+  & label{
+    color:#777;
+    font-size:14px;
+    padding-bottom:7px;
+    font-weight:500;
+  }
+
+
+}
+
 .toolbar {
   display:inline-block;
   width:auto;
   vertical-align:middle;
 
   & input{
+    border:0;
     height:55px;
     background-color:transparent;
     border-right:1px solid darken(#AD2E2E, 5%);
@@ -336,11 +436,11 @@ textarea{
   }
 
   & select{
+    border:0;
     height:55px;
     font-size:16px;
     border-radius:0;
     -webkit-border-radius: 0px !important;
-
     color:#ddd;
     background-color:transparent;
   }
@@ -357,6 +457,7 @@ textarea{
     & a,
     & a:visited{
       display:inline-block;
+      margin-left:-4px;
       width:auto;
       font-size:20px;
       color:#fff;
@@ -365,7 +466,12 @@ textarea{
       border-left:1px solid darken(#AD2E2E, 5%);
 
       & i{
-        min-width:20px;
+        min-width:25px;
+      }
+
+      &:hover,
+      &:focus{
+        background-color:rgba(255,255,255,0.05);
       }
     }
   }
