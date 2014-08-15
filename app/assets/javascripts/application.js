@@ -12,5 +12,57 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
-//= require_tree .
+
+;(function( $, window, undefined ){
+
+  $(document).ready(function(){
+
+    var map,
+        geocoder,
+        marker,
+        formTools = {
+          'getFieldFegex': function(){}
+        },
+        mapTools = {
+          'mapInit':function(id, center, marker, markerCenter){
+              var canvas = document.getElementById(id),
+                  o = {
+                    zoom:10,
+                    center:center
+                  };
+              map = new google.maps.Map( canvas, o );
+              if( marker ){
+                var m = new google.maps.Marker({
+                  map:map,
+                  position:center,
+                  draggable:true
+                })
+              }
+
+           }
+       }
+
+
+    // IN NEW HOTEL FORM, ALLOW USER TO ENTER A FEE
+    $('.allow-fee').on('change', function(){
+      var a = $(this),
+          b = $(this).closest('.group'),
+          c = 'input[type="number"], input[type="text"]';
+      if( a.is(':checked')){
+        b.find(c).attr('readonly', false);
+      } else {
+        b.find(c).attr('readonly', true).val('');
+      }
+    })
+
+    // INIT NEW HOTEL MAP
+    google.maps.event.addDomListener( window, 'load', mapTools.mapInit( 'map-canvas', new google.maps.LatLng(33, -81), true) );
+
+
+
+
+
+
+  })
+
+})(jQuery, window);

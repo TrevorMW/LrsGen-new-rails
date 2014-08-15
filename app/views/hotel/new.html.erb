@@ -1,58 +1,144 @@
+
+<% content_for :classes do %> full <% end %>
+
 <% content_for :tools do %>
-
-
-
-
+  <h2>Create a New Hotel:</h2>
 <% end %>
 
 <% content_for :main do %>
 
-    <div class="" id="map-canvas" data-center=""></div>
+    <div class="contentblock full" id="map-canvas" data-start-coords="" style="min-height:225px; border-bottom:1px solid #aaa;"></div>
 
-    <%= form_for :hotel do |h| %>
+    <div class="contentblock two-third">
 
-      <ul>
+      <%= form_for @hotel, :url => {:action=> :create } do |h| %>
 
-        <li class="third ">
-          <%= h.label :name, raw('Hotel Name: <span class="required">*</span>') %>
-          <%= h.text_field :hotel_name,
-                            class: "",
-                            id: "js-check-hotel-name",
-                            placeholder: "Hotel Name (max 350 characters)..." %>
-        </li>
-        <li class="third">
-          <%= h.label :image_url, raw('Hotel Image Url: <span class="required">*</span>') %>
-          <%= h.text_field :hotel_image_url,
-                            class: "",
-                            placeholder: "Hotel Img Url" %>
-        </li>
+          <ul>
 
-        <li class="third right">
-          <%= h.label :type, raw('Hotel Type: <span class="required">*</span>') %>
-          <%= h.select( :type, options_for_select( [['Please select a hotel type',0],['Bed & Breakfast',1],['Historic Hotel',2]]) ) %>
-        </li>
-
-        <li class="fourth ">
-          <%= h.label :type, "Hotel Type:" %>
-          <%= h.select( :type, options_for_select( [['Please select a hotel type',0],['Bed & Breakfast',1],['Historic Hotel',2]]) ) %>
-        </li>
-        <li class="fourth ">
-          <%= h.label :type, "Hotel Type:" %>
-          <%= h.select( :type, options_for_select( [['Please select a hotel type',0],['Bed & Breakfast',1],['Historic Hotel',2]]) ) %>
-        </li>
-        <li class="fourth ">
-          <%= h.label :type, "Hotel Type:" %>
-          <%= h.select( :type, options_for_select( [['Please select a hotel type',0],['Bed & Breakfast',1],['Historic Hotel',2]]) ) %>
-        </li>
-        <li class="fourth right">
-          <%= h.label :type, "Hotel Type:" %>
-          <%= h.select( :type, options_for_select( [['Please select a hotel type',0],['Bed & Breakfast',1],['Historic Hotel',2]]) ) %>
-        </li>
+            <li class="third ">
+              <%= h.label :name, raw('Hotel Name: <span class="required">*</span>') %>
+              <%= h.text_field :hotel_name,
+                                class: "",
+                                id: "js-check-hotel-name",
+                                placeholder: "Hotel Name (max 350 characters)..." %>
+            </li>
 
 
+            <li class="third">
+              <%= h.label :image_url, raw('Hotel Image Url: <span class="required">*</span>') %>
+              <%= h.text_field :hotel_img_url,
+                                class: "",
+                                placeholder: "Hotel Img Url" %>
+            </li>
 
-      </ul>
 
-    <% end %>
+            <li class="third right">
+              <%= h.label :type, raw('Hotel Type: <span class="required">*</span>') %>
+              <%= h.select( :hotel_type, options_for_select( [['Please select a hotel type',0],['Bed & Breakfast',1],['Historic Hotel',2]]) ) %>
+            </li>
+
+
+            <li class="half ">
+              <%= h.label :street, raw('Hotel Street: <span class="required">*</span>') %>
+              <%= h.text_field :hotel_street,
+                                class: "",
+                                placeholder: "Street Address...." %>
+            </li>
+
+
+            <li class="fourth ">
+              <%= h.label :city, raw('Hotel City: <span class="required">*</span>') %>
+              <%= h.text_field :hotel_city,
+                                class: "",
+                                placeholder: "Hotel City..." %>
+            </li>
+
+
+            <li class="fourth right">
+              <%= h.label :state, raw('Hotel State: <span class="required">*</span>') %>
+              <%= h.select( :hotel_state, options_for_select( hotel_states, "SC" ) ) %>
+            </li>
+
+
+            <li class="fourth ">
+              <%= h.label :zip, raw('Hotel Zip: <span class="required">*</span>') %>
+              <%= h.number_field :hotel_zip,
+                                class: "",
+                                placeholder: "Hotel Zip" %>
+            </li>
+
+            <li class="fourth ">
+              <%= h.label :pets, raw('Hotel Allows Pets? ') %>
+              <div class="group">
+                <span>
+                  <%= h.check_box :hotel_pets, { class: "allow-fee", } %>
+                </span>
+                <%= h.number_field :hotel_pet_fee,
+                                   class: "",
+                                   placeholder: "$0.00",
+                                   readonly: "true" %>
+              </div>
+            </li>
+
+          <li class="fourth ">
+              <%= h.label :smoking, raw('Hotel allows smoking? ') %>
+              <div class="group">
+                <span>
+                  <%= h.check_box :hotel_smoking, { class: "allow-fee", } %>
+                </span>
+                <%= h.number_field :hotel_smoking_fee,
+                                   class: "",
+                                   placeholder: "$0.00",
+                                   readonly: "true" %>
+              </div>
+            </li>
+
+          <li class="fourth right">
+              <%= h.label :parking, raw('Hotel has parking? <span class="required">*</span>') %>
+              <div class="group">
+                <span>
+                  <%= h.check_box :hotel_parking_fee, { class: "allow-fee", } %>
+                </span>
+                <%= h.number_field :hotel_parking_fee,
+                                   class: "",
+                                   placeholder: "$0.00",
+                                   readonly: "true" %>
+              </div>
+            </li>
+
+
+          <li class="third ">
+            <%= h.label :phone, 'Hotel Phone:' %>
+            <%= h.text_field :hotel_phone,
+                              class: "",
+                              placeholder: "Hotel phone..." %>
+          </li>
+
+          <li class="third ">
+            <%= h.label :lat, 'Hotel Latitude:' %>
+            <%= h.number_field :hotel_lat,
+                              class: "",
+                              id: 'js-hotel-lat',
+                              readonly: "true"   %>
+          </li>
+
+          <li class="third right">
+            <%= h.label :lng, 'Hotel Longitude:' %>
+            <%= h.number_field :hotel_lng,
+                              class: "",
+                              id: 'js-hotel-lng',
+                              readonly: "true" %>
+          </li>
+
+
+          <li>
+            <%= h.submit method: :create %>
+          </li>
+
+        </ul>
+
+      <% end %>
+
+    </div>
 
 <% end %>

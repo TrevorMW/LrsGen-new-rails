@@ -112,9 +112,11 @@ main{
   height:inherit;
   padding-bottom:30px;
 
+
   &:after{
     @extend .clearfix;
   }
+
 }
 
 
@@ -197,6 +199,36 @@ nav.main{
   & a.accordion:hover,
   & a.accordion:focus{
     background-color:#aaa;
+  }
+
+}
+
+.contentblock{
+  display:table;
+  width:100%;
+  padding:15px;
+
+  &.full{
+    padding:0;
+  }
+
+  &.half,
+  &.one-third,
+  &.two-third{
+    display:table-cell;
+    vertical-align:top;
+  }
+
+  &.half{
+    width:50%;
+  }
+
+  &.one-third{
+    width:33%;
+  }
+
+  &.two-third{
+    width:66%;
   }
 
 }
@@ -345,7 +377,7 @@ textarea{
 }
 
 select{
-  height:33px;
+  height:34px;
   background-color:#fff;
 }
 
@@ -367,20 +399,20 @@ form {
     &.third,
     &.fourth{
       display:inline-block;
-      width:49%;
+      width:48.5%;
+      margin-right:1.1%;
       vertical-align:top;
     }
 
     &.third,
     &.third.right{
-      width:32%;
-      margin-right:15px;
+      width:32.2%;
     }
 
     &.fourth,
     &.fourth.right{
-      width:24%;
-      margin-right:10px;
+      width:23.7%;
+
     }
 
     &.half.right,
@@ -399,6 +431,11 @@ form {
     display:block;
   }
 
+  & input[readonly]{
+    opacity:.7;
+    cursor:no-drop;
+  }
+
   & input:focus,
   & textarea:focus,
   & select:focus{
@@ -412,6 +449,31 @@ form {
     font-weight:500;
   }
 
+  & input[type="checkbox"]{
+    -webkit-appearance:checkbox;
+    width:auto;
+    padding:0;
+  }
+
+  & .group{
+    display:table;
+    width:100%;
+
+    & input,
+    & span{
+      display:table-cell;
+      vertical-align:middle;
+    }
+
+    & span{
+      padding:5px 5px 8px 7px;
+      width:28px;
+      border:1px solid #ddd;
+      border-right:0;
+      border-radius: 5px 0 0 5px ;
+      background-color:#dcdcdc;
+    }
+  }
 
 }
 

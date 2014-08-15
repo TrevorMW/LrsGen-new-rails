@@ -1,15 +1,6 @@
 class HotelController < ApplicationController
 
-
-  private
-
-  def hotel_attributes
-      params.require(:hotel).permit(:hotel_name,:hotel_street,:hotel_city,:hotel_state,:hotel_zip,:hotel_phone,
-                                    :hotel_email,:hotel_lat,:hotel_lng,:hotel_image_url,:hotel_pets,
-                                    :hotel_pet_fee,:hotel_smoking,:hotel_smoking_fee,:hotel_type,
-                                    :hotel_region,:hotel_parking_fee )
-  end
-
+  helper HotelHelper
 
 
   # SHOW ALL HOTELS ON DASHBOARD
@@ -27,15 +18,22 @@ class HotelController < ApplicationController
 
   # FORM PAGE TO CREATE NEW HOTEL
   def new
-    @hotel = Hotel.new()
+    @hotel = Hotel.new
     @hotelCats = Hotel.get_hotel_categories
+
   end
 
 
   # CREATE METHOD
   def create
-    @h = Hotel.create( params[:hotel] )
-    @h.save()
+    h = Hotel.create( hotel_params )
+    if h.save
+      flash[:success] = "#{h.hotel_name} was created successfully!";
+      redirect_to action: :index
+    else
+      flash[:error] = "Your hotel could not be created!";
+      redirect_to action: :new
+    end
   end
 
 
@@ -78,6 +76,16 @@ class HotelController < ApplicationController
       render :nothing => true, :status => 200
     end
     return
+  end
+
+
+  private
+
+  def hotel_params
+      params.require(:hotel).permit(:hotel_name,:hotel_street,:hotel_city,:hotel_state,:hotel_zip,:hotel_phone,
+                                    :hotel_email,:hotel_lat,:hotel_lng,:hotel_image_url,:hotel_pets,
+                                    :hotel_pet_fee,:hotel_smoking,:hotel_smoking_fee,:hotel_type,
+                                    :hotel_region,:hotel_parking_fee )
   end
 
 end
