@@ -46,6 +46,13 @@ img{
   clear:both;
   width:100%;
 }
+hr{
+  border:0;
+  border-top:1px solid #dcdcdc;
+  margin:15px 0;
+  display:block;
+  width:100%;
+}
 
 .wrapper{
   display:block;
@@ -359,6 +366,16 @@ small{
 }
 
 
+.btn{
+  display:inline-block;
+  width:auto;
+  padding:10px 25px;
+  background-color:#AD2E2E;
+  color:#fff;
+  font-weight:500;
+  letter-spacing:.1em;
+}
+
 
 select,
 input,
@@ -395,6 +412,10 @@ form {
     width:100%;
     margin-bottom:18px;
 
+    &.submit{
+      text-align:right;
+    }
+
     &.half,
     &.third,
     &.fourth{
@@ -402,6 +423,11 @@ form {
       width:48.5%;
       margin-right:1.1%;
       vertical-align:top;
+    }
+
+    &.half.right{
+      width:48.5%;
+      float:right;
     }
 
     &.third,
@@ -420,6 +446,26 @@ form {
     &.fourth.right{
       float:right;
       margin-right:0;
+    }
+
+    &.error{
+      & label{
+        color:red;
+      }
+
+      & input,select, textarea{
+        border-color:red;
+      }
+    }
+
+    &.success{
+      & label{
+        color:green;
+      }
+
+      & input,select, textarea{
+        border-color:green;
+      }
     }
   }
 

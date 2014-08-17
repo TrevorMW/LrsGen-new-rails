@@ -7,5 +7,5 @@ class Hotel < ActiveRecord::Base
   def self.checkHotel( hotel_name )
     return Hotel.where("hotel_name = :hotel", {:hotel => hotel_name } ).count
   end
-  
+
 end

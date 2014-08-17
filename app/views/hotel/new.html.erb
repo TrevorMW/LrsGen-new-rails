@@ -2,29 +2,25 @@
 <% content_for :classes do %> full <% end %>
 
 <% content_for :tools do %>
-  <h2>Create a New Hotel:</h2>
+
 <% end %>
 
 <% content_for :main do %>
 
-    <div class="contentblock full" id="map-canvas" data-start-coords="" style="min-height:225px; border-bottom:1px solid #aaa;"></div>
+
 
     <div class="contentblock two-third">
 
-      <%= form_for @hotel, :url => {:action=> :create } do |h| %>
+      <h2>Create a New Hotel:</h2><hr />
+
+      <%= form_for @hotel, :url => {:action => :create }, html: { id:"js-create-hotel"} do |h| %>
 
           <ul>
 
-            <li class="third ">
-              <%= h.label :name, raw('Hotel Name: <span class="required">*</span>') %>
-              <%= h.text_field :hotel_name,
-                                class: "",
-                                id: "js-check-hotel-name",
-                                placeholder: "Hotel Name (max 350 characters)..." %>
-            </li>
 
 
-            <li class="third">
+
+            <li class="half ">
               <%= h.label :image_url, raw('Hotel Image Url: <span class="required">*</span>') %>
               <%= h.text_field :hotel_img_url,
                                 class: "",
@@ -32,39 +28,54 @@
             </li>
 
 
-            <li class="third right">
+            <li class="half right">
               <%= h.label :type, raw('Hotel Type: <span class="required">*</span>') %>
               <%= h.select( :hotel_type, options_for_select( [['Please select a hotel type',0],['Bed & Breakfast',1],['Historic Hotel',2]]) ) %>
             </li>
 
+            <li class="full">
+              <%= h.label :name, raw('Hotel Name: <span class="required">*</span> &nbsp;&nbsp;<small id="js-hotel-name-check"></small>') %>
+              <%= h.text_field :hotel_name,
+                                class: "geolocate",
+                                id: "js-check-hotel-name",
+                                placeholder: "Hotel Name (max 350 characters)...",
+                                data: { regex: "/^[A_Za-z0-9]+$/",
+                                        validateUrl: '/hotel/checkHotel' } %>
+            </li>
 
-            <li class="half ">
+
+            <li class="full">
               <%= h.label :street, raw('Hotel Street: <span class="required">*</span>') %>
               <%= h.text_field :hotel_street,
-                                class: "",
-                                placeholder: "Street Address...." %>
+                                class: "geolocate",
+                                placeholder: "Street Address....",
+                                data: { regex: "/^[A_Za-z0-9]+$/" } %>
             </li>
 
 
-            <li class="fourth ">
+            <li class="third ">
               <%= h.label :city, raw('Hotel City: <span class="required">*</span>') %>
               <%= h.text_field :hotel_city,
-                                class: "",
-                                placeholder: "Hotel City..." %>
+                                class: "geolocate",
+                                placeholder: "Hotel City...",
+                                data: { regex: "/^[A_Za-z0-9]+$/" } %>
             </li>
 
 
-            <li class="fourth right">
+            <li class="third ">
               <%= h.label :state, raw('Hotel State: <span class="required">*</span>') %>
-              <%= h.select( :hotel_state, options_for_select( hotel_states, "SC" ) ) %>
+              <%= h.select( :hotel_state,
+                            options_for_select( hotel_states, "SC" ),
+                            class: "geolocate" ) %>
             </li>
 
 
-            <li class="fourth ">
+            <li class="third right">
               <%= h.label :zip, raw('Hotel Zip: <span class="required">*</span>') %>
               <%= h.number_field :hotel_zip,
-                                class: "",
-                                placeholder: "Hotel Zip" %>
+                                class: "geolocate",
+                                placeholder: "Hotel Zip",
+                                data: { regex: "/^[0-9]+$/" }  %>
             </li>
 
             <li class="fourth ">
@@ -93,7 +104,7 @@
               </div>
             </li>
 
-          <li class="fourth right">
+          <li class="fourth">
               <%= h.label :parking, raw('Hotel has parking? <span class="required">*</span>') %>
               <div class="group">
                 <span>
@@ -107,14 +118,15 @@
             </li>
 
 
-          <li class="third ">
-            <%= h.label :phone, 'Hotel Phone:' %>
+          <li class="fourth right ">
+            <%= h.label :phone, raw('Hotel Phone: <small>(xxx-xxx-xxxx)</small>') %>
             <%= h.text_field :hotel_phone,
                               class: "",
-                              placeholder: "Hotel phone..." %>
+                              placeholder: "Hotel phone...",
+                              data: { regex: "/^[0-9]+$/" } %>
           </li>
 
-          <li class="third ">
+          <li class="half ">
             <%= h.label :lat, 'Hotel Latitude:' %>
             <%= h.number_field :hotel_lat,
                               class: "",
@@ -122,7 +134,7 @@
                               readonly: "true"   %>
           </li>
 
-          <li class="third right">
+          <li class="half right">
             <%= h.label :lng, 'Hotel Longitude:' %>
             <%= h.number_field :hotel_lng,
                               class: "",
@@ -131,8 +143,8 @@
           </li>
 
 
-          <li>
-            <%= h.submit method: :create %>
+          <li class="submit">
+            <%= h.submit method: :create, class:"btn btn-red" %>
           </li>
 
         </ul>
@@ -140,5 +152,7 @@
       <% end %>
 
     </div>
+
+    <div class="contentblock one-third" id="map-canvas" data-start-coords="" style="height:inherit; border-left:1px solid #aaa;"></div>
 
 <% end %>
