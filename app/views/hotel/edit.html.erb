@@ -3,17 +3,18 @@
 
 <% content_for :tools do %>
 
+
 <% end %>
 
 <% content_for :main do %>
 
- <div class="contentblock full">
+  <div class="contentblock full">
 
-    <div class="two-third">
+    <div class=" two-third">
 
-      <h2>Create a New Hotel:</h2><hr />
+      <h2>Edit "<%= @hotel.hotel_name %>" </h2><hr />
 
-      <%= form_for @hotel, :url => {:action => :create }, html: { id:"js-create-hotel"} do |h| %>
+      <%= form_for @hotel, :url => {:action => :update }, html: { id:"js-create-hotel"} do |h| %>
 
           <ul>
 
@@ -75,7 +76,7 @@
                                 data: { regex: "/^[0-9]+$/" }  %>
             </li>
 
-            <li class="third ">
+            <li class="fourth ">
               <%= h.label :hotel_pets, raw('Hotel Allows Pets? ') %>
               <div class="group">
                 <span>
@@ -88,7 +89,7 @@
               </div>
             </li>
 
-          <li class="third ">
+          <li class="fourth ">
               <%= h.label :hotel_smoking, raw('Hotel allows smoking? ') %>
               <div class="group">
                 <span>
@@ -101,7 +102,7 @@
               </div>
             </li>
 
-          <li class="third right">
+          <li class="fourth">
               <%= h.label :hotel_parking, raw('Hotel has parking? <span class="required">*</span>') %>
               <div class="group">
                 <span>
@@ -115,15 +116,7 @@
             </li>
 
 
-          <li class="half  ">
-            <%= h.label :email, raw('Hotel Email:') %>
-            <%= h.text_field :hotel_email,
-                              class: "",
-                              placeholder: "Hotel email...",
-                              data: { regex: "/^[A-Za-z0-9@.]+$/" } %>
-          </li>
-
-          <li class="half right ">
+          <li class="fourth right ">
             <%= h.label :phone, raw('Hotel Phone: <small>(xxx-xxx-xxxx)</small>') %>
             <%= h.text_field :hotel_phone,
                               class: "",
@@ -158,7 +151,7 @@
 
     </div>
 
-    <div class=" one-third" id="map-canvas" data-start-coords="" style="height:inherit; border-left:1px solid #aaa;"></div>
+    <div class="one-third" id="map-canvas" data-start-coords="<%= @coords %>" style="height:inherit; border-left:1px solid #aaa;"></div>
 
   </div>
 

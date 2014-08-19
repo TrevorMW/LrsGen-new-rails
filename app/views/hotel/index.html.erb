@@ -3,12 +3,9 @@
   <div class="toolbar filters" id="js-filters">
 
     <select id="js-filter-hotel-type">
-      <option value="-1">Filter by type</option>
-      <option value="1">Bed & Breakfasts</option>
-      <option value="2">Historic Inns</option>
-      <option value="3">Historic Hotels</option>
-      <option value="4">RiverView Hotels</option>
-      <option value="5">Mt. Pleasant</option>
+      <%= hotel_types.each do |c| %>
+        <option value="<%= c[1] %>"><%= c[0] %></option>
+      <% end %>
     </select>
     <input type="search" value="" id="js-search-filter" placeholder="Filter by name..."/>
   </div>
@@ -23,43 +20,33 @@
 <% content_for :main do %>
 
 
-  <% 20.times do |f| %>
+  <% @hotels.each do |h| %>
 
     <div class="hotel block" data-filter="">
 
       <div class="hotel-img">
-        <img src="http://andrewpinckneyinn.com/wp-content/uploads/2014/03/API-Exterior-Crop-WEB.jpg" alt="" />
+        <img src="<%= h.hotel_img_url %>" alt="" />
+        <h5><%= h.hotel_type %></h5>
       </div>
 
       <div class="hotel-info">
-        <span><h3><a href="/hotel/1"> Hotel Name</a></h3><small><i class="fa fa-phone"></i> &nbsp;555-555-5555</small></span>
-        <span class="no-pad">
-          <table>
-            <thead>
-              <tr>
-                <td colspan="3">Fees</td>
-              </tr>
-              <tr>
-                <td><i class="fa fa-fire"></i></td>
-                <td><i class="fa fa-paw"></i></td>
-                <td><i class="fa fa-car"></i></td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>$20</td>
-                <td>N/A</td>
-                <td>$12 pn</td>
-              </tr>
-            </tbody>
-          </table>
+        <span>
+          <h4><a href="<%= hotel_path( h.id ) %>"><%= h.hotel_name %></a></h4>
+          <p><i class="fa fa-phone"></i> &nbsp;<%= h.hotel_phone%></p>
         </span>
-        <span></span>
+        <span>
+
+        </span>  
+
       </div>
 
       <div class="hotel-tools">
-        <a href="#" title="Delete Hotel"><i class="fa fa-times"></i></a>
-        <a href="#" title="Edit Hotel"><i class="fa fa-edit"></i></a>
+        <%=  link_to raw('<i class="fa fa-times"></i>'),
+                     hotel_path(h.id),
+                     :method => :delete,
+                     :confirm => "Are you sure you want to delete #{ h.hotel_name}?"  %>
+
+        <a href="<%= edit_hotel_path( h.id ) %>" title="Edit Hotel"><i class="fa fa-edit"></i></a>
         <a href="#" title="Get Hotel Directions"><i class="fa fa-map-marker"></i></a>
         <a href="#" title="New Reservation"><i class="fa fa-file"></i></a>
       </div>

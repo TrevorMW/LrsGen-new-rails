@@ -24,17 +24,33 @@
           flag = true,
           addressToLocate,
           latBox = $('#js-hotel-lat'),
-          lngBox = $('#js-hotel-lng');
+          lngBox = $('#js-hotel-lng'),
+          predefinedCenter = $('[data-start-coords]').data(),
+          zoom = 12;
+
+      if( typeof predefinedCenter == 'object' ){
+        startCoords = new google.maps.LatLng(predefinedCenter.startCoords.lat, predefinedCenter.startCoords.lng);
+        zoom = 17;
+      } else {
+        startCoords = new google.maps.LatLng(32.7856, -79.9362)
+      }
+
+      var basic = {
+          removeAlert: function(a){
+            a.closest('div.alert').remove();
+          }
+      }
 
       var formTools = {
-            checkFields: function(a){ event.preventDefault();
-              this.resetErrors(); flag == false;
+            checkFields: function(a){
+              this.resetErrors();
+              flag == false;
               a.find('[data-regex]').each( function(){ formTools.matchFieldRegex( $(this), $(this).val(), $(this).data('regex') ) });
             },
             matchFieldRegex: function(a, val, regex){
               if( flag == true ){
                 var r = new RegExp( regex, 'i' ).test( val );
-                if( r == false){ flag = false; a.parent().addClass('error'); }
+                if( r == false ){ flag = false; a.parent().addClass('error');}
               }
             },
             resetErrors: function(){
@@ -48,9 +64,9 @@
             checkForHotelInstance: function(a){
               var b = a.parent();
               $.get( a.attr('data-validateUrl'), { hotel: a.val() }).success(function(){
-                  b.removeClass('has-error has-success').addClass('has-success');
+                  b.removeClass('error success').addClass('success');
               }).error(function(){
-                  b.removeClass('has-error has-success').addClass('has-error');
+                  b.removeClass('error success').addClass('error');
               });
             }
           }
@@ -58,7 +74,7 @@
       var mapTools = {
             mapInit:function( center ){
                 var canvas = this.canvas,
-                    o = { zoom:13,   center:center };
+                    o = { zoom:zoom,   center:center };
                 map = new google.maps.Map( document.getElementById('map-canvas'), o );
                 marker = new google.maps.Marker({ map:map, position:center , draggable:true })
                 latBox.val(center.lat())
@@ -90,22 +106,31 @@
 
 
       ///////////////////////////////////////////////////////////////////////////
+      ////  GLOBAL JS
+      ///////////////////////////////////////////////////////////////////////////
+
+      $(document).on('click', '[data-dismiss]', function(){ basic.removeAlert( $(this) )})
+
+
+
+
+      ///////////////////////////////////////////////////////////////////////////
       ////  CREATE HOTEL FORM JS
       ///////////////////////////////////////////////////////////////////////////
 
       // UNLOCK HOTEL FEE BOXES
       $('.allow-fee').on('change', function(){ formTools.allowFees($(this)) });
 
-      // INIT NEW HOTEL MAP
-      google.maps.event.addDomListener( window, 'load', mapTools.mapInit(new google.maps.LatLng(32.7856, -79.9362)) );
-
-      // SET EVENT LISTENER FOR MARKER DRAG
-      google.maps.event.addListener(marker,'dragend', function(e){ mapTools.changeCoords(e) });
+      // INIT NEW HOTEL MAP AND SET EVENT LISTENER FOR MARKER DRAG
+      if( document.getElementById('map-canvas') != null ){
+        google.maps.event.addDomListener( window, 'load', mapTools.mapInit(startCoords) );
+        google.maps.event.addListener(marker,'dragend', function(e){ mapTools.changeCoords(e) });
+      }
 
       // CAPTURE HOTEL CREATE FORM SUBMIT FOR JS VALIDATION
       $('#js-create-hotel').submit( function(){ formTools.checkFields( $(this) ) } );
 
-      //$(document).on('focusout', '.geolocate', function(){ addressToLocate = ''; mapTools.findHotel( $(this) ) });
+      $(document).on('focusout', '.geolocate', function(){ addressToLocate = ''; mapTools.findHotel( $(this) ) });
 
       $(document).on('focusout','#js-check-hotel-name', function(){ formTools.checkForHotelInstance( $(this) ); });
 

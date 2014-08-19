@@ -1,13 +1,35 @@
 <% content_for :tools do %>
 
 
+  <div class="toolbar btns">
+    <a href="<%= hotel_path( @hotel.id ) %>" class="tool-btns" title="Create New hotel"><i class="fa fa-file"></i></a>
+  </div>
+
 
 <% end %>
 
+<% content_for :classes do %> full <% end %>
+
 <% content_for :main do %>
 
-  <div class="contentblock full" id="map-canvas" data-start-coords="" style="min-height:250px;"></div>
+  <div class="contentblock full">
 
+    <div class="two-third">
 
+      <h2><%= @hotel.hotel_name %></h2><hr />
+
+      <div class="hotel-img">
+        <img src="<%= @hotel.hotel_img_url%>" alt="" />
+      </div>
+
+      <table>
+
+      </table>
+
+    </div>
+
+    <div class="one-third nopad" id="map-canvas" data-start-coords="<%= @coords %>" style="height:inherit; border-left:1px solid #aaa;"></div>
+
+  <div>
 
 <% end %>

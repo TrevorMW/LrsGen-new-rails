@@ -214,28 +214,33 @@ nav.main{
   display:table;
   width:100%;
   padding:15px;
+  height:inherit;
 
   &.full{
     padding:0;
   }
 
-  &.half,
-  &.one-third,
-  &.two-third{
+  & .one-third,
+  & .two-third{
     display:table-cell;
     vertical-align:top;
+    padding:15px;
   }
 
-  &.half{
-    width:50%;
+  & .one-third{
+    width:35%;
+
+    &.nopad{
+      padding:0;
+    }
   }
 
-  &.one-third{
-    width:33%;
-  }
-
-  &.two-third{
+  & .two-third{
     width:66%;
+
+    &.nopad{
+      padding:0;
+    }
   }
 
 }
