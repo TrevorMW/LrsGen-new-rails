@@ -2,6 +2,7 @@
 
 
   <div class="toolbar btns">
+    <a href="<%= hotel_path( @hotel.id ) %>" class="tool-btns" title="Create New hotel"><i class="fa fa-map-marker"></i></a>
     <a href="<%= hotel_path( @hotel.id ) %>" class="tool-btns" title="Create New hotel"><i class="fa fa-file"></i></a>
   </div>
 
@@ -18,9 +19,13 @@
 
       <h2><%= @hotel.hotel_name %></h2><hr />
 
-      <div class="hotel-img">
+      <div class="hotel-img"  style="max-width:200px; float:right;">
         <img src="<%= @hotel.hotel_img_url%>" alt="" />
       </div>
+
+      <h3><%= @hotel.hotel_type %></h3>
+      <p><i class="fa fa-envelope"></i> &nbsp;<%= @hotel.hotel_email %></p>
+      <p><i class="fa fa-phone"></i> &nbsp;<%= @hotel.hotel_phone %></p>
 
       <table>
 
