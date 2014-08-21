@@ -213,18 +213,26 @@ nav.main{
 .contentblock{
   display:table;
   width:100%;
-  padding:15px;
   height:inherit;
 
   &.full{
     padding:0;
   }
 
+  & .half,
   & .one-third,
   & .two-third{
     display:table-cell;
     vertical-align:top;
     padding:15px;
+  }
+
+  & .half{
+      width:50%;
+
+      &.nopad{
+        padding:0;
+      }
   }
 
   & .one-third{
@@ -533,34 +541,61 @@ form {
   width:auto;
   vertical-align:middle;
 
-  & input{
-    border:0;
-    height:55px;
-    background-color:transparent;
-    border-right:1px solid darken(#AD2E2E, 5%);
-    border-left:1px solid darken(#AD2E2E, 5%);
-    color:#ddd;
-    font-size:16px;
-    padding: 0 8px;
-    min-width:250px;
-    margin-left:-4px;
-    position:relative;
-    z-index:1;
-  }
+  &.filters{
 
-  & select{
-    border:0;
-    height:55px;
-    font-size:16px;
-    border-radius:0;
-    -webkit-border-radius: 0px !important;
-    color:#ddd;
-    background-color:transparent;
-  }
+    & form {
+      display:inline-block;
+      width:auto;
+    }
 
-  & input:focus,
-  & select:focus{
-    background-color:rgba(255,255,255,0.05);
+    & input{
+      display:inline-block;
+      width:auto;
+      border:0;
+      height:55px;
+      background-color:transparent;
+      border-right:1px solid darken(#AD2E2E, 5%);
+      border-left:1px solid darken(#AD2E2E, 5%);
+      color:#ddd;
+      font-size:16px;
+      padding: 0 8px;
+      min-width:250px;
+      margin-left:-4px;
+      position:relative;
+      z-index:1;
+    }
+
+    & select{
+      display:inline-block;
+      width:auto;
+      border:0;
+      height:55px;
+      font-size:16px;
+      border-radius:0;
+      -webkit-border-radius: 0px !important;
+      color:#ddd;
+      background-color:transparent;
+      border-right:1px solid darken(#AD2E2E, 5%);
+      margin-left:-4px;
+    }
+
+    & input:focus,
+    & select:focus{
+      background-color:rgba(255,255,255,0.05);
+    }
+
+    & a,
+    & button{
+      color:#fff;
+      display:inline-block;
+      vertical-align:top;
+      border-right:1px solid darken(#AD2E2E, 5%);
+
+      & i{
+        padding: 17px;
+        font-size:20px;
+      }
+    }
   }
 
   &.btns{

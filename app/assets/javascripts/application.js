@@ -41,6 +41,35 @@
           }
       }
 
+      var filterFunctions = {
+        'show_all_filter_items': function( a ){
+          a.show();
+        },
+        'filter_items': function( a, b ){
+          a.hide();
+          a.filter( function(){ return b.test( $(this).attr('data-filter') ) }).show();
+        },
+        'select_filters': function( a, b ){
+           var c = '';
+           b != null ? c = '(?=.*'+b+')' : c = '' ;
+           a.find('select').each(function(){
+             c += '(?=.*' + $(this).val() + ')';
+           });
+           return c;
+        },
+        'input_filter': function( a ){
+          var b = a.find('input').val();
+          if( b != null ){ return b; }
+        },
+        'build_regex_query':function( a ){
+          if( typeof a == 'object'){
+            var b = this.input_filter( a ),
+                c = this.select_filters( a, b );
+            if( c.length >= 1 ){ return c; } else { return ''; }
+          }
+        }
+      }
+
       var formTools = {
             checkFields: function(a){
               this.resetErrors();
@@ -62,11 +91,15 @@
               if( a.is(':checked') ){ b.find(c).attr('readonly', false); } else { b.find(c).attr('readonly', true).val(''); }
             },
             checkForHotelInstance: function(a){
-              var b = a.parent();
+              var b = a.parent(),
+                  c = $('#js-create-hotel').find('input[type="submit"]');
+
               $.get( a.attr('data-validateUrl'), { hotel: a.val() }).success(function(){
                   b.removeClass('error success').addClass('success');
+                  c.attr('disabled', false)
               }).error(function(){
                   b.removeClass('error success').addClass('error');
+                  c.attr('disabled', true)
               });
             }
           }
@@ -89,13 +122,15 @@
               this.getGeocodeString(a);
               if( addressToLocate.length > 0 ){
                 geocoder.geocode({'address':addressToLocate}, function(r, s){
-                  var l = r[0].geometry.location;
-                  if( s == google.maps.GeocoderStatus.OK ){
-                    map.setCenter(l);
-                    map.setZoom(15);
-                    marker.setPosition(l);
-                    latBox.val(l.lat());
-                    lngBox.val(l.lng());
+                  if( r.length > 0 ){
+                    var l = r[0].geometry.location;
+                    if( s == google.maps.GeocoderStatus.OK ){
+                      map.setCenter(l);
+                      map.setZoom(15);
+                      marker.setPosition(l);
+                      latBox.val(l.lat());
+                      lngBox.val(l.lng());
+                    }
                   }
                 })
               }
@@ -132,18 +167,54 @@
 
       $(document).on('focusout', '.geolocate', function(){ addressToLocate = ''; mapTools.findHotel( $(this) ) });
 
-      $(document).on('focusout','#js-check-hotel-name', function(){ formTools.checkForHotelInstance( $(this) ); });
+      if( $('#js-create-hotel').hasClass('new') ){
+        $(document).on('focusout','#js-check-hotel-name', function(){ formTools.checkForHotelInstance( $(this) ); });
+      }
+
 
 
 
       ///////////////////////////////////////////////////////////////////////////
-      ////  CREATE HOTEL FORM JS
+      ////  HOTELS INDEX JS
       ///////////////////////////////////////////////////////////////////////////
 
+      // RESET FILTERS
+      $(document).on('click','#js-reset-filters', function(e){
+        e.preventDefault();
+        var form = $('#js-filter');
+        filterFunctions.show_all_filter_items( $('[data-filter]') );
+        form.trigger('reset');
+      });
+
+      // FILTER
+      /*
+      $('#js-filter').submit( function( event ){
+        event.preventDefault();
+        var a = $(this),
+            b = filterFunctions.build_regex_query( a ),
+            c = new RegExp( b, 'ig' ),
+            d = $('[data-filter]');
+
+        if( b.length >= 1 )
+          filterFunctions.filter_items( d, c );
+        else
+          filterFunctions.show_all_filter_items( d );
+      }); */
+
+      $('#js-filter-hotel-type').change(function(event){
+        event.preventDefault();
+        var a = $(this).closest('form'),
+            b = filterFunctions.select_filters( a, null ),
+            c = new RegExp( b, 'ig' ),
+            d = $('[data-filter]');
+
+        if( b.length >= 1 )
+          filterFunctions.filter_items( d, c );
+        else
+          filterFunctions.show_all_filter_items( d );
+      })
 
 
   })
-
-
 
 })(jQuery, window);

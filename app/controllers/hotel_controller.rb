@@ -14,7 +14,7 @@ class HotelController < ApplicationController
   def show
     h = Hotel.find( params[:id] )
     @hotel = h
-    @coords = { :lat => h.hotel_lat, :lng => h.hotel_lng }.to_json
+    @coords = Hotel.hotelJsonCoords( h )
   end
 
 

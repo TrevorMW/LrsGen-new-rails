@@ -1,13 +1,14 @@
 <% content_for :tools do %>
 
   <div class="toolbar filters" id="js-filters">
-
-    <select id="js-filter-hotel-type">
-      <%= hotel_types.each do |c| %>
-        <option value="<%= c[1] %>"><%= c[0] %></option>
-      <% end %>
-    </select>
-    <input type="search" value="" id="js-search-filter" placeholder="Filter by name..."/>
+    <a href="#" id="js-reset-filters"><i class="fa fa-refresh"></i></a>
+    <form id="js-filter" >
+      <select id="js-filter-hotel-type">
+        <%= hotel_types.each do |c| %>
+          <option value="<%= c[1] %>"><%= c[0] %></option>
+        <% end %>
+      </select>
+    </form>
   </div>
 
   <div class="toolbar btns">
@@ -22,7 +23,7 @@
 
   <% @hotels.each do |h| %>
 
-    <div class="hotel block" data-filter="">
+    <div class="hotel block" data-filter="<%= h.hotel_name %> <%= h.hotel_type %>">
 
       <div class="hotel-img">
         <img src="<%= h.hotel_img_url %>" alt="" />
@@ -34,10 +35,6 @@
           <h4><a href="<%= hotel_path( h.id ) %>"><%= h.hotel_name %></a></h4>
           <p><i class="fa fa-phone"></i> &nbsp;<%= h.hotel_phone%></p>
         </span>
-        <span>
-
-        </span>  
-
       </div>
 
       <div class="hotel-tools">
@@ -47,8 +44,8 @@
                      :confirm => "Are you sure you want to delete #{ h.hotel_name}?"  %>
 
         <a href="<%= edit_hotel_path( h.id ) %>" title="Edit Hotel"><i class="fa fa-edit"></i></a>
-        <a href="#" title="Get Hotel Directions"><i class="fa fa-map-marker"></i></a>
-        <a href="#" title="New Reservation"><i class="fa fa-file"></i></a>
+        <a href="<%= hotel_directions_path( h.id ) %>" title="Get Hotel Directions"><i class="fa fa-map-marker"></i></a>
+        <a href="<%= new_hotel_reservation_path( h.id ) %>" title="New Reservation"><i class="fa fa-file"></i></a>
       </div>
 
     </div>

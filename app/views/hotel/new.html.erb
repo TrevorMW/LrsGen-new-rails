@@ -13,7 +13,7 @@
 
       <h2>Create a New Hotel:</h2><hr />
 
-      <%= form_for @hotel, :url => {:action => :create }, html: { id:"js-create-hotel"} do |h| %>
+      <%= form_for @hotel, :url => {:action => :create }, html: { id:"js-create-hotel", class: "new"} do |h| %>
 
           <ul>
 
@@ -30,7 +30,7 @@
               <%= h.select( :hotel_type, options_for_select( hotel_types, '') ) %>
             </li>
 
-            <li class="full">
+            <li class="half">
               <%= h.label :name, raw('Hotel Name: <span class="required">*</span> &nbsp;&nbsp;<small id="js-hotel-name-check"></small>') %>
               <%= h.text_field :hotel_name,
                                 class: "geolocate",
@@ -41,7 +41,7 @@
             </li>
 
 
-            <li class="full">
+            <li class="half right">
               <%= h.label :hotel_street, raw('Hotel Street: <span class="required">*</span>') %>
               <%= h.text_field :hotel_street,
                                 class: "geolocate",

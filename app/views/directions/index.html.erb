@@ -1,0 +1,35 @@
+<% content_for :classes do %> full <% end %>
+<% content_for :tools do %>
+
+  <div class="toolbar filters" id="js-filters">
+    <form id="js-filter">
+      <input type="text" id="js-start-location" placeholder="From..." />
+      <input type="text" id="js-start-location" value="<%= @address %>" />
+      <button href="#" type="submit" id="js-get-directions">Get Directions</button>
+    </form>
+
+  </div>
+
+  <div class="toolbar btns">
+    <a href="#" id="js-reverse-directions"><i class="fa fa-refresh"></i></a>
+    <a href="#" id="js-print-directions"><i class="fa fa-print"></i></a>
+  </div>
+
+<% end %>
+
+<% content_for :main do %>
+
+  <div class="contentblock">
+
+    <div class="half nopad" id="map-canvas" data-coords="<%= @coords %>" style="height:100%;"></div>
+
+    <div class="half">
+
+      <h3>Directions to <%= @hotel.hotel_name %></h3><hr />
+
+    </div>
+
+  </div>
+
+
+<% end %>
