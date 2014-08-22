@@ -1,9 +1,9 @@
 <% content_for :classes do %> full <% end %>
 <% content_for :tools do %>
 
-  <div class="toolbar filters" id="js-filters">
-    <form id="js-filter">
-      <input type="text" id="js-start-location" placeholder="From..." />
+  <div class="toolbar filters">
+    <form id="js-directions">
+      <input type="text" id="js-end-location" placeholder="From..." />
       <input type="text" id="js-start-location" value="<%= @address %>" />
       <button href="#" type="submit" id="js-get-directions">Get Directions</button>
     </form>
@@ -21,7 +21,7 @@
 
   <div class="contentblock">
 
-    <div class="half nopad" id="map-canvas" data-coords="<%= @coords %>" style="height:100%;"></div>
+    <div class="half nopad" id="map-canvas" data-start-coords="<%= @coords %>" style="height:100%;"></div>
 
     <div class="half">
 

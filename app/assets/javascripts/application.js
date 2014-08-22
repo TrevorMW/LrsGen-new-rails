@@ -26,7 +26,10 @@
           latBox = $('#js-hotel-lat'),
           lngBox = $('#js-hotel-lng'),
           predefinedCenter = $('[data-start-coords]').data(),
-          zoom = 12;
+          zoom = 12,
+          directionObj = new google.maps.DirectionsService(),
+          start = $('#js-start-location'),
+          end = $('#js-end-location');
 
       if( typeof predefinedCenter == 'object' ){
         startCoords = new google.maps.LatLng(predefinedCenter.startCoords.lat, predefinedCenter.startCoords.lng);
@@ -112,6 +115,10 @@
                 marker = new google.maps.Marker({ map:map, position:center , draggable:true })
                 latBox.val(center.lat())
                 lngBox.val(center.lng())
+                if( start != null ){
+                  directions = new google.maps.DirectionsRenderer();
+                  directions.setMap(map);
+                }
             },
             getGeocodeString:function(a){
                 $('.geolocate').each(function(){
@@ -135,7 +142,21 @@
                 })
               }
             },
-            changeCoords: function(e){ latBox.val(e.latLng.lat()); lngBox.val(e.latLng.lng()); }
+            changeCoords: function(e){ latBox.val(e.latLng.lat()); lngBox.val(e.latLng.lng()); },
+            calcRoute: function() {
+              if( end.val().length > 0 ){
+                var request = {
+                  origin:start.val(),
+                  destination:end.val(),
+                  travelMode: google.maps.TravelMode.DRIVING
+                };
+                directionObj.route(request, function(result, status) {
+                  if (status == google.maps.DirectionsStatus.OK) {
+                    directions.setDirections(result);
+                  }
+                });
+              }
+            }
          }
 
 
@@ -212,6 +233,17 @@
           filterFunctions.filter_items( d, c );
         else
           filterFunctions.show_all_filter_items( d );
+      })
+
+
+
+      ///////////////////////////////////////////////////////////////////////////
+      ////  DIRECTIONS JS
+      ///////////////////////////////////////////////////////////////////////////
+
+      $('#js-directions').submit(function(e){
+        e.preventDefault();
+        mapTools.mapInit( startCoords);
       })
 
 
