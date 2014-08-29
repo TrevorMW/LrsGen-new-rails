@@ -16,3 +16,6 @@ gem 'spring', group: :development
 gem "font-awesome-rails"
 gem 'bourbon'
 gem 'yaml_db'
+
+gem 'countries'
+gem 'country_select'

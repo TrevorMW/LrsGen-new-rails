@@ -429,6 +429,10 @@ form {
       text-align:right;
     }
 
+    &.hidden{
+      display:none;
+    }
+
     &.half,
     &.third,
     &.fourth{

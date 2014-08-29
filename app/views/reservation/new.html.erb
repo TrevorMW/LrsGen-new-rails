@@ -1,0 +1,79 @@
+<% content_for :tools do %>
+
+  <div class="toolbar filters">
+    <form id="js-directions">
+      <input type="text" id="js-end-location" placeholder="From..." />
+      <input type="text" id="js-start-location" value="<%= @address %>" />
+      <button href="#" type="submit" id="js-get-directions">Get Directions</button>
+    </form>
+
+  </div>
+
+  <div class="toolbar btns">
+    <a href="#" id="js-reverse-directions"><i class="fa fa-refresh"></i></a>
+    <a href="#" id="js-print-directions"><i class="fa fa-print"></i></a>
+  </div>
+
+<% end %>
+
+<% content_for :main do %>
+
+  <div class="contentblock">
+
+      <h3>New Reservation for <%= @hotel.hotel_name %></h3><hr />
+
+      <%= form_for @reservation, :url => {:action => :create }, html: { id:"js-create-reservation", class: "new"} do |r| %>
+
+        <ul>
+
+          <li class="full hidden">
+            <%= r.label :hotel_id, 'Reservation Hotel ID:' %>
+            <%= r.hidden_field :rsrv_hotel_id,
+                             class: "",
+                             value: @hotel.id %>
+          </li>
+
+          <li class="third">
+            <%= r.label :rsrv_guest_name, 'Guest\'s Name:' %>
+            <%= r.text_field :rsrv_guest_name,
+                             class: "",
+                             placeholder: "Full name of guest as it appears on credit card" %>
+          </li>
+
+          <li class="third">
+            <%= r.label :rsrv_guest_street, 'Guest\'s Street Address:' %>
+            <%= r.text_field :rsrv_guest_street,
+                             class: "",
+                             placeholder: "Street Address" %>
+          </li>
+
+          <li class="third right">
+            <%= r.label :rsrv_guest_city, 'Guests\'s City:' %>
+            <%= r.text_field :rsrv_guest_city,
+                             class: "",
+                             placeholder: "City name" %>
+          </li>
+
+          <li class="fourth">
+            <%= r.label :rsrv_guest_state, 'Guests\'s State/Province:' %>
+            <%= r.text_field :rsrv_guest_state,
+                             class: "",
+                             placeholder: "State name" %>
+          </li>
+
+          <li class="fourth">
+            <%= r.label :rsrv_guest_country, raw('Hotel Type: <span class="required">*</span>') %>
+            <%= r.select( :rsrv_guest_country, options_for_select( hotel_types, '') ) %>
+          </li>
+
+
+
+
+        </ul>
+
+      <% end %>
+
+  </div>
+
+
+<% end %>
