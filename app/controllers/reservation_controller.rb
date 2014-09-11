@@ -6,7 +6,7 @@ class ReservationController < ApplicationController
   def new
     @hotel = Hotel.find( params[:hotel_id] )
     @reservation = Reservation.new
-
+    @countries = Country.all()
   end
 
 

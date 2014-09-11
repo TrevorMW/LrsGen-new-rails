@@ -1,16 +1,10 @@
 <% content_for :tools do %>
 
   <div class="toolbar filters">
-    <form id="js-directions">
-      <input type="text" id="js-end-location" placeholder="From..." />
-      <input type="text" id="js-start-location" value="<%= @address %>" />
-      <button href="#" type="submit" id="js-get-directions">Get Directions</button>
-    </form>
 
   </div>
 
   <div class="toolbar btns">
-    <a href="#" id="js-reverse-directions"><i class="fa fa-refresh"></i></a>
     <a href="#" id="js-print-directions"><i class="fa fa-print"></i></a>
   </div>
 
@@ -33,38 +27,167 @@
                              value: @hotel.id %>
           </li>
 
-          <li class="third">
-            <%= r.label :rsrv_guest_name, 'Guest\'s Name:' %>
+          <li class="half">
+            <%= r.label :rsrv_guest_name, raw('Guest\'s Name: ') %>
             <%= r.text_field :rsrv_guest_name,
                              class: "",
-                             placeholder: "Full name of guest as it appears on credit card" %>
+                             placeholder: "Full name of guest as it appears on credit card",
+                             data: { regex: "([A-Za-z0-9-. ]+)" } %>
           </li>
 
-          <li class="third">
-            <%= r.label :rsrv_guest_street, 'Guest\'s Street Address:' %>
+          <li class="half right">
+            <%= r.label :rsrv_guest_street, raw('Guest\'s Street Address: ') %>
             <%= r.text_field :rsrv_guest_street,
                              class: "",
-                             placeholder: "Street Address" %>
+                             placeholder: "Street Address",
+                             data: { regex: "(^[A-Za-z0-9-.,& ]+$)" } %>
           </li>
 
-          <li class="third right">
+          <li class="fourth">
             <%= r.label :rsrv_guest_city, 'Guests\'s City:' %>
             <%= r.text_field :rsrv_guest_city,
                              class: "",
-                             placeholder: "City name" %>
+                             placeholder: "City name..." %>
           </li>
 
           <li class="fourth">
             <%= r.label :rsrv_guest_state, 'Guests\'s State/Province:' %>
             <%= r.text_field :rsrv_guest_state,
                              class: "",
-                             placeholder: "State name" %>
+                             placeholder: "State name..." %>
           </li>
 
           <li class="fourth">
-            <%= r.label :rsrv_guest_country, raw('Hotel Type: <span class="required">*</span>') %>
-            <%= r.select( :rsrv_guest_country, options_for_select( hotel_types, '') ) %>
+            <%= r.label :rsrv_guest_country, raw('Guest\'s Country: ') %>
+            <%= r.select( :rsrv_guest_country, options_for_select( @countries, 'US') ) %>
           </li>
+
+          <li class="fourth right">
+            <%= r.label :rsrv_guest_zip, raw('Guest\'s Zip: ') %>
+            <%= r.text_field :rsrv_guest_zip,
+                             class: "",
+                             placeholder: "",
+                             data: { regex: "(^[0-9-]+$)" } %>
+          </li>
+
+          <li class="fourth">
+            <%= r.label :rsrv_guest_phone, raw('Guest\'s Phone Number: ') %>
+            <%= r.text_field :rsrv_guest_phone,
+                             class: "",
+                             placeholder: "",
+                             data: { regex: "(^[0-9-)(]+$)" } %>
+          </li>
+
+          <li class="fourth">
+            <%= r.label :rsrv_guest_email, raw('Guest\'s Email: ') %>
+            <%= r.text_field :rsrv_guest_email,
+                             class: "",
+                             placeholder: "",
+                             data: { regex: "([A-Za-z0-9.+])+([@]{1})+([A-Za-z0-9])+([A-Za-z.]+)" } %>
+          </li>
+
+          <li class="fourth ">
+            <%= r.label :rsrv_guest_cc_stub, raw('Last 4 digits of CC: ') %>
+            <%= r.text_field :rsrv_guest_cc_stub,
+                             class: "",
+                             placeholder: "",
+                             data: { regex: "(^[0-9/]{4}$)" } %>
+          </li>
+
+          <li class="fourth right">
+            <%= r.label :rsrv_guest_cc_exp, raw('Credit card expiration date:  <small>(mm/yy)</small>') %>
+            <%= r.text_field :rsrv_guest_cc_exp,
+                             class: "",
+                             placeholder: "",
+                             data: { regex: "(^[0-9/]+$)" } %>
+          </li>
+
+
+          <li class="third ">
+            <%= r.label :rsrv_num_nights, raw('Number of nights: ') %>
+            <%= r.text_field :rsrv_num_nights,
+                             class: "",
+                             placeholder: "",
+                             data: { regex: "(^[0-9]+$)" } %>
+          </li>
+
+          <li class="third ">
+            <%= r.label :rsrv_num_rooms, raw('Number of nights: ') %>
+            <%= r.text_field :rsrv_num_rooms,
+                             class: "",
+                             placeholder: "",
+                             data: { regex: "(^[0-9]+$)" } %>
+          </li>
+
+          <li class="third right">
+            <%= r.label :rsrv_num_occupants, raw('Number of nights: ') %>
+            <%= r.text_field :rsrv_num_occupants,
+                             class: "",
+                             placeholder: "",
+                             data: { regex: "(^[0-9]+$)" } %>
+          </li>
+
+
+          <li class="third">
+            <%= r.label :rsrv_room_type, raw('Room Type:') %>
+            <%= r.select( :rsrv_room_type, options_for_select( hotel_room_types, 'US') ) %>
+          </li>
+
+          <% if @hotel.hotel_smoking %>
+            <li class="third">
+                <%= r.label :rsrv_smoking, raw('Smoking Room?') %>
+                <div class="group">
+                  <span>
+                    <%= r.check_box :rsrv_smoking, { class: "allow-fee",  } %>
+                  </span>
+                  <%= r.number_field :rsrv_smoking,
+                                     class: "",
+                                     placeholder: @hotel.hotel_smoking_fee,
+                                     readonly: "true" %>
+                </div>
+              </li>
+          <% else %>
+            <li class="third">
+                <%= r.label :rsrv_smoking, raw('Smoking not allowed in this hotel') %>
+                <div class="group">
+                  <span>
+                    <%= r.check_box :rsrv_smoking, { disabled: "true" } %>
+                  </span>
+                  <%= r.number_field :rsrv_smoking,
+                                     class: "",
+                                     placeholder: @hotel.hotel_smoking_fee,
+                                     disabled: "true" %>
+                </div>
+              </li>
+          <% end %>
+
+          <% if @hotel.hotel_pets %>
+            <li class="third right">
+                <%= r.label :rsrv_pets, raw('Traveling with pets?') %>
+                <div class="group">
+                  <span>
+                    <%= r.check_box :rsrv_smoking, { class: "allow-fee",  } %>
+                  </span>
+                  <%= r.number_field :rsrv_smoking,
+                                     class: "",
+                                     placeholder: @hotel.hotel_pet_fee,
+                                     readonly: "true" %>
+                </div>
+              </li>
+          <% else %>
+            <li class="third right">
+                <%= r.label :rsrv_pets, raw('Pets not allowed at this hotel') %>
+                <div class="group">
+                  <span>
+                    <%= r.check_box :rsrv_pets, { disabled: "true" } %>
+                  </span>
+                  <%= r.number_field :rsrv_pets,
+                                     class: "",
+                                     placeholder: @hotel.hotel_pet_fee,
+                                     disabled: "true" %>
+                </div>
+              </li>
+          <% end %>
 
 
 

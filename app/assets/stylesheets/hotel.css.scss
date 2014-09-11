@@ -1,3 +1,88 @@
 // Place all the styles related to the hotel controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+.hotel.block{
+  float:left;
+  width:23%;
+  margin:1%;
+  -webkit-box-shadow: 0px 8px 15px -7px rgba(0,0,0, 0.51);
+  -moz-box-shadow:    0px 8px 15px -7px rgba(0,0,0, 0.51);
+  box-shadow:         0px 8px 15px -7px rgba(0,0,0, 0.51);
+
+  & .hotel-img{
+    max-height:100px;
+    overflow:hidden;
+  }
+
+  & .hotel-info{
+    background-color:#ddd;
+    min-height:50px;
+
+    & span{
+      display:block;
+      width:100%;
+      border-bottom:1px dashed darken(#ccc, 5%);
+      padding:10px;
+
+      &.no-pad{
+        padding:0;
+      }
+
+      & table{
+        width:100%;
+        background-color:#fff;
+        border-collapse:collapse;
+
+        & thead td,
+        & tbody td{
+          width:33%;
+          padding:3px 0;
+          text-align:center;
+        }
+      }
+    }
+
+    & p {
+      font-size:12px;
+      line-height:25px;
+      margin:0;
+    }
+
+    & span:last-child{
+      border-bottom:1px solid darken(#ccc, 5%);
+    }
+  }
+
+  & .hotel-tools{
+    background-color:#cecece;
+
+    &:after{
+      @extend .clearfix;
+    }
+
+    & a,
+    & a:visited{
+      float:left;
+      width:25%;
+      text-align:center;
+      padding:10px 0;
+      border-left:1px solid darken(#ccc, 5%);
+
+      & i{
+        color:#666;
+        font-size:20px;
+      }
+
+      &:first-child{
+        border-left:0;
+      }
+    }
+
+    & a:hover i,
+    & a:focus i{
+      color:#AD2E2E;
+    }
+  }
+}

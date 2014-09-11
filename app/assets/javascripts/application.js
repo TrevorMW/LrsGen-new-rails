@@ -38,38 +38,33 @@
         startCoords = new google.maps.LatLng(32.7856, -79.9362)
       }
 
-      var basic = {
+      var alerts = {
           removeAlert: function(a){
             a.closest('div.alert').remove();
           }
       }
 
-      var filterFunctions = {
-        'show_all_filter_items': function( a ){
-          a.show();
+      var filters = {
+        showAll: function(){
+          $('[data-filter]').show();
         },
-        'filter_items': function( a, b ){
+        hideItem: function(a){
           a.hide();
-          a.filter( function(){ return b.test( $(this).attr('data-filter') ) }).show();
         },
-        'select_filters': function( a, b ){
-           var c = '';
-           b != null ? c = '(?=.*'+b+')' : c = '' ;
-           a.find('select').each(function(){
-             c += '(?=.*' + $(this).val() + ')';
-           });
-           return c;
+        getFilterValue:function(a){
+          return a.find('input, select').val();
         },
-        'input_filter': function( a ){
-          var b = a.find('input').val();
-          if( b != null ){ return b; }
+        buildRegex:function(a){
+          return new RegExp( a, 'i' );
         },
-        'build_regex_query':function( a ){
-          if( typeof a == 'object'){
-            var b = this.input_filter( a ),
-                c = this.select_filters( a, b );
-            if( c.length >= 1 ){ return c; } else { return ''; }
-          }
+        checkItems:function(a){
+          var r = filters.buildRegex(a);
+          $('[data-filter]').each(function(){
+            var result = r.test( $(this).data('filter') )
+            if( !result ){
+              filters.hideItem( $(this) )
+            }
+          })
         }
       }
 
@@ -165,7 +160,7 @@
       ////  GLOBAL JS
       ///////////////////////////////////////////////////////////////////////////
 
-      $(document).on('click', '[data-dismiss]', function(){ basic.removeAlert( $(this) )})
+      $(document).on('click', '[data-dismiss]', function(){ alert.removeAlert( $(this) )})
 
 
 
@@ -199,40 +194,33 @@
       ////  HOTELS INDEX JS
       ///////////////////////////////////////////////////////////////////////////
 
-      // RESET FILTERS
-      $(document).on('click','#js-reset-filters', function(e){
+      // FILTER ITEMS
+      $('#js-filter').submit(function(e){
         e.preventDefault();
-        var form = $('#js-filter');
-        filterFunctions.show_all_filter_items( $('[data-filter]') );
-        form.trigger('reset');
-      });
+        filters.showAll();
+        var form = $(this),
+            val = filters.getFilterValue(form);
+        if( val.length > 0 ){
+            filters.checkItems(val);
+        }
+      })
 
-      // FILTER
-      /*
-      $('#js-filter').submit( function( event ){
-        event.preventDefault();
-        var a = $(this),
-            b = filterFunctions.build_regex_query( a ),
-            c = new RegExp( b, 'ig' ),
-            d = $('[data-filter]');
+      // FILTER ITEMS WITH SELECT
+      $('#js-filter').change(function(e){
+        e.preventDefault();
+        filters.showAll();
+        var form = $(this),
+            val = filters.getFilterValue(form);
+        if( val.length > 0 ){
+            filters.checkItems(val);
+        }
+      })
 
-        if( b.length >= 1 )
-          filterFunctions.filter_items( d, c );
-        else
-          filterFunctions.show_all_filter_items( d );
-      }); */
-
-      $('#js-filter-hotel-type').change(function(event){
-        event.preventDefault();
-        var a = $(this).closest('form'),
-            b = filterFunctions.select_filters( a, null ),
-            c = new RegExp( b, 'ig' ),
-            d = $('[data-filter]');
-
-        if( b.length >= 1 )
-          filterFunctions.filter_items( d, c );
-        else
-          filterFunctions.show_all_filter_items( d );
+      // RESET ALL FILTERS
+      $(document).on('click', '#js-filter-reset', function(e){
+        e.preventDefault();
+        filters.showAll();
+        $(this).closest('form').trigger('reset');
       })
 
 
