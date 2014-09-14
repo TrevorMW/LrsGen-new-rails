@@ -1,7 +1,7 @@
 class RatesController < ApplicationController
 
   def index
-    @hotels = Hotel.all()
+    @hotels = Hotel.all().order(:hotel_type)
 
   end
 

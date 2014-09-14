@@ -34,7 +34,7 @@
       <% @hotels.each do |h| %>
         <tr class="<%= h.hotel_booked ? "booked" : '' ;%>" data-filter="<%= h.hotel_name %>" data-hotel-id="<%= h.id %>"  data-edit-url="rates/<%= h.id %>/saveCells">
           <td class="tiny"><input type="checkbox" value="" name="hotel_booked" <%= h.hotel_booked ? "checked" : '' ;%>  /></td>
-          <td><%= h.hotel_name %></td>
+          <td><%= h.hotel_name %><br /><small><%= h.hotel_type %></small></td>
           <td><%= h.hotel_phone %></td>
           <td class="editable js-concierge" contentEditable><%= h.hotel_concierge %></td>
           <td class="editable js-rates" contentEditable><%= h.hotel_current_rate %></td>
