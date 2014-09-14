@@ -12,33 +12,27 @@
 
   <div class="wrapper top">
     <div class="left">
-      <a href="">
+      <a href="/">
         <img src="" alt"" />
       </a>
     </div>
     <div class="right">
-      <%= yield :tools %>
+      <div class="toolbar">
+        <%= yield :tools %>
+      </div>
     </div>
   </div>
 
   <div class="wrapper bottom">
     <div class="left">
-      <nav class="main" role="navigation">
-        <ul>
-          <li><a href="/statistic" class="active"><i class="fa fa-signal"></i> Statistics</a></li>
-          <li><a href="/hotel"><i class="fa fa-building"></i> Hotels</a></li>
-          <li><a href="/rates"><i class="fa fa-usd"></i> Rates</a></li>
-          <li><a href="/report"><i class="fa fa-file-excel-o"></i> Reports</a></li>
-          <li><a href="/user"><i class="fa fa-users"></i> Users</a></li>
-        </ul>
-      </nav>
+      <%= render "shared/navigation" %>
     </div>
 
     <div class="right">
+      <% flash.each do |key, value| %>
+         <%=  content_tag :div, content_tag(:p,value) + content_tag( :button, raw('&times;'), type: "button", class: "close", data:{ "dismiss" => "alert"} ), class: "alert alert-#{key}" %>
+      <% end %>
       <main class="container <%= yield :classes %>">
-        <% flash.each do |key, value| %>
-  			   <%=  content_tag :div, content_tag(:p,value) + content_tag( :button, raw('&times;'), type: "button", class: "close", data:{ "dismiss" => "alert"} ), class: "alert alert-#{key}" %>
-  			<% end %>
         <%= yield :main %>
       </main>
     </div>

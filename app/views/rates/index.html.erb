@@ -1,16 +1,15 @@
 <% content_for :tools do %>
 
-  <div class="toolbar filters" id="js-filters">
+  <div class="left">
     <form id="js-filter">
       <input type="search" />
-      <button type="submit"><i class="fa fa"></i></button>
+      <button type="submit"><i class="fa fa-search"></i></button>
+      <button id="js-filter-reset"><i class="fa fa-refresh"></i></button>
     </form>
-    <a href="#" id="js-reset-filters"><i class="fa fa-refresh"></i></a>
   </div>
 
-  <div class="toolbar btns">
-    <a href="" class=""><i class="fa fa-list"></i></a>
-    <a href="/hotel/new" class="tool-btns" title="Create New hotel"><i class="fa fa-plus"></i></a>
+  <div class="right">
+
   </div>
 
 <% end %>
@@ -18,5 +17,31 @@
 <% content_for :main do %>
 
   <h2><i class="fa fa-usd"></i> Current Rates</h2><hr />
+
+  <table class="" id="js-rate-table">
+
+    <thead>
+      <tr>
+        <td class="tiny">Full</td>
+        <td class="fourth">Name</td>
+        <td class="fifth">Phone Number</td>
+        <td class="fifth">Concierge</td>
+        <td class="half">Rates</td>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @hotels.each do |h| %>
+        <tr class="<%= h.hotel_booked ? "booked" : '' ;%>" data-filter="<%= h.hotel_name %>" data-hotel-id="<%= h.id %>"  data-edit-url="rates/<%= h.id %>/saveCells">
+          <td class="tiny"><input type="checkbox" value="" name="hotel_booked" <%= h.hotel_booked ? "checked" : '' ;%>  /></td>
+          <td><%= h.hotel_name %></td>
+          <td><%= h.hotel_phone %></td>
+          <td class="editable js-concierge" contentEditable><%= h.hotel_concierge %></td>
+          <td class="editable js-rates" contentEditable><%= h.hotel_current_rate %></td>
+        </tr>
+      <% end %>
+    </tbody>
+
+  </table>
 
 <% end %>

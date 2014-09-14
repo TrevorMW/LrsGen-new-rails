@@ -68,11 +68,11 @@
         }
       }
 
-      var formTools = {
+      var forms = {
             checkFields: function(a){
               this.resetErrors();
               flag == false;
-              a.find('[data-regex]').each( function(){ formTools.matchFieldRegex( $(this), $(this).val(), $(this).data('regex') ) });
+              a.find('[data-regex]').each( function(){ forms.matchFieldRegex( $(this), $(this).val(), $(this).data('regex') ) });
             },
             matchFieldRegex: function(a, val, regex){
               if( flag == true ){
@@ -102,7 +102,7 @@
             }
           }
 
-      var mapTools = {
+      var maps = {
             mapInit:function( center ){
                 var canvas = this.canvas,
                     o = { zoom:zoom,   center:center };
@@ -154,13 +154,55 @@
             }
          }
 
+      var edit = {
+        'values': { 'id':'', 'hotel_booked':false, 'hotel_concierge': '', 'hotel_rates':'' },
+        'editPath': function(a){
+          return a.data('edit-url')
+        },
+        stringData:function(a){
+          return $.param(edit.values);
+        },
+        booked:function(a){
+          return a.find('input[type="checkbox"]').is(':checked');
+        },
+        extractData:function(a){
+          edit.values.id = a.data('hotel-id')
+          edit.values.hotel_booked = edit.booked(a)
+          edit.values.hotel_concierge = a.find('.js-concierge').text()
+          edit.values.hotel_rates = a.find('.js-rates').text()
+        },
+        removeIndicators:function(a){
+          a.delay(2000).removeClass('success error')
+        },
+        saveValues:function(a){
+          var data = edit.stringData()
+              path = edit.editPath(a),
+              parent = a;
 
+          $.ajax({
+            url: path,
+            type: "post",
+            cache:false,
+            data: data,
+            dataType: 'json',
+            success: function(data, status){
+              parent.addClass('success')
+              location.reload();
+            },
+            error: function(data, status){
+              parent.addClass('error')
+            }
+          })
+        }
+      }
 
       ///////////////////////////////////////////////////////////////////////////
       ////  GLOBAL JS
       ///////////////////////////////////////////////////////////////////////////
 
-      $(document).on('click', '[data-dismiss]', function(){ alert.removeAlert( $(this) )})
+      $(document).on('click', '[data-dismiss]', function(){
+        alerts.removeAlert( $(this) )
+      })
 
 
 
@@ -170,23 +212,22 @@
       ///////////////////////////////////////////////////////////////////////////
 
       // UNLOCK HOTEL FEE BOXES
-      $('.allow-fee').on('change', function(){ formTools.allowFees($(this)) });
+      $('.allow-fee').on('change', function(){ forms.allowFees($(this)) });
 
       // INIT NEW HOTEL MAP AND SET EVENT LISTENER FOR MARKER DRAG
       if( document.getElementById('map-canvas') != null ){
-        google.maps.event.addDomListener( window, 'load', mapTools.mapInit(startCoords) );
-        google.maps.event.addListener(marker,'dragend', function(e){ mapTools.changeCoords(e) });
+        google.maps.event.addDomListener( window, 'load', maps.mapInit(startCoords) );
+        google.maps.event.addListener(marker,'dragend', function(e){ maps.changeCoords(e) });
       }
 
       // CAPTURE HOTEL CREATE FORM SUBMIT FOR JS VALIDATION
-      $('#js-create-hotel').submit( function(){ formTools.checkFields( $(this) ) } );
+      $('#js-create-hotel').submit( function(){ forms.checkFields( $(this) ) } );
 
-      $(document).on('focusout', '.geolocate', function(){ addressToLocate = ''; mapTools.findHotel( $(this) ) });
+      $(document).on('focusout', '.geolocate', function(){ addressToLocate = ''; maps.findHotel( $(this) ) });
 
       if( $('#js-create-hotel').hasClass('new') ){
-        $(document).on('focusout','#js-check-hotel-name', function(){ formTools.checkForHotelInstance( $(this) ); });
+        $(document).on('focusout','#js-check-hotel-name', function(){ forms.checkForHotelInstance( $(this) ); });
       }
-
 
 
 
@@ -220,7 +261,7 @@
       $(document).on('click', '#js-filter-reset', function(e){
         e.preventDefault();
         filters.showAll();
-        $(this).closest('form').trigger('reset');
+        $(this).closest('#js-filter').trigger('reset');
       })
 
 
@@ -231,8 +272,35 @@
 
       $('#js-directions').submit(function(e){
         e.preventDefault();
-        mapTools.mapInit( startCoords);
+        maps.mapInit( startCoords);
       })
+
+
+
+
+      ///////////////////////////////////////////////////////////////////////////
+      ////  EDITABLE CONTENT JS
+      ///////////////////////////////////////////////////////////////////////////
+
+      $('[contentEditable]').focus(function(){
+        $(this).addClass('editing')
+      })
+
+      $('[contentEditable]').on( 'focusout', function(){
+        $(this).removeClass('editing success error')
+        var row = $(this).closest('tr');
+        edit.extractData(row)
+        edit.stringData( edit.values )
+        edit.saveValues( row )
+      })
+
+      $('input[type="checkbox"]').change(function(){
+        var row = $(this).closest('tr');
+        edit.extractData(row)
+        edit.stringData( edit.values )
+        edit.saveValues( row )
+      })
+
 
 
   })

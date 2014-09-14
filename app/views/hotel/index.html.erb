@@ -1,7 +1,6 @@
 <% content_for :tools do %>
 
-  <div class="toolbar filters" id="js-filters">
-
+  <div class="left">
     <form id="js-filter" >
       <select id="js-select-filter">
         <%= hotel_types.each do |c| %>
@@ -12,7 +11,7 @@
     <a href="#" id="js-filter-reset"><i class="fa fa-refresh"></i></a>
   </div>
 
-  <div class="toolbar btns">
+  <div class="right">
     <a href="" class=""><i class="fa fa-list"></i></a>
     <a href="/hotel/new" class="tool-btns" title="Create New hotel"><i class="fa fa-plus"></i></a>
   </div>
